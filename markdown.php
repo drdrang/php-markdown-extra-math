@@ -1130,6 +1130,29 @@ class Markdown_Parser {
 		return "\n\n".$this->hashBlock($codeblock)."\n\n";
 	}
 
+  function doDisplayMath($text) {
+  #
+  # Wrap text between \[ and \] in <div class="math"></div> tags.
+  #
+    $text = preg_replace_callback('{
+      ^\\\\         # line starts with a single backslash (double escaping)
+      \[            # followed by a square bracket
+      (.+)          # then the actual LaTeX code
+      \\\\          # followed by another backslash
+      \]            # and closing bracket
+      \s*$          # and maybe some whitespace before the end of the line
+      }mx',
+      array(&$this, '_doDisplayMath_callback'), $text);
+      
+    return $text;
+  }
+  function _doDisplayMath_callback($matches) {
+    $texblock = $matches[1];
+    $texblock = htmlspecialchars(trim($texblock), ENT_NOQUOTES);
+		$texblock = "<div class=\"math\">$texblock</div>";
+		return "\n\n".$this->hashBlock($texblock)."\n\n";
+	}
+    
 
 	function makeCodeSpan($code) {
 	#
@@ -1711,6 +1734,7 @@ class MarkdownExtra_Parser extends Markdown_Parser {
 			"doFencedCodeBlocks" => 5,
 			"doTables"           => 15,
 			"doDefLists"         => 45,
+			"doDisplayMath"      => 55,
 			);
 		$this->span_gamut += array(
 			"doFootnotes"        => 5,
