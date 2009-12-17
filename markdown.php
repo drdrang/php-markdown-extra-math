@@ -1162,6 +1162,15 @@ class Markdown_Parser {
 		return $this->hashPart("<code>$code</code>");
 	}
 
+  function makeInlineMath($tex) {
+	#
+	# Create a code span markup for $tex. Called from handleSpanToken.
+	#
+		$tex = htmlspecialchars(trim($tex), ENT_NOQUOTES);
+		return $this->hashPart("<span class=\"math\">$tex</span>");
+	}
+
+	
 
 	var $em_relist = array(
 		''  => '(?:(?<!\*)\*(?!\*)|(?<!_)_(?!_))(?=\S|$)(?![.,:;]\s)',
@@ -1546,7 +1555,7 @@ class Markdown_Parser {
 	function parseSpan($str) {
 	#
 	# Take the string $str and parse it into tokens, hashing embeded HTML,
-	# escaped characters and handling code spans.
+	# escaped characters and handling code and math spans.
 	#
 		$output = '';
 		
@@ -1556,6 +1565,8 @@ class Markdown_Parser {
 				|
 					(?<![`\\\\])
 					`+						# code span marker
+				|
+				  \\ \(         # inline math
 			'.( $this->no_markup ? '' : '
 				|
 					<!--    .*?     -->		# comment
@@ -1606,7 +1617,26 @@ class Markdown_Parser {
 	#
 		switch ($token{0}) {
 			case "\\":
-				return $this->hashPart("&#". ord($token{1}). ";");
+				if ($token{1} == "(") {
+			    #echo "$token\n";
+			    #echo "$str\n\n";
+			    $texend = strpos($str, '\\)');
+			    #echo "$texend\n";
+			    if ($texend) {
+			      $eqn = substr($str, 0, $texend);
+			      $str = substr($str, $texend+2);
+			      #echo "$eqn\n";
+			      #echo "$str\n";
+			      $texspan = $this->makeInlineMath($eqn);
+			      return $this->hashPart($texspan);
+		      }
+		      else {
+		        return $str;
+	        }
+			  }
+			  else {
+				  return $this->hashPart("&#". ord($token{1}). ";");
+			  }
 			case "`":
 				# Search for end marker in remaining text.
 				if (preg_match('/^(.*?[^`])'.preg_quote($token).'(?!`)(.*)$/sm', 
