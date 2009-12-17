@@ -1,6 +1,6 @@
 PHP Markdown Extra Math is an extension of Michel Fortin's [PHP Markdown Extra][1], a PHP script for converting text written in [Markdown][2] to HTML. The extension consist of adding support for mathematical equations written in LaTeX to be processed by Davide Cervone's [jsMath][3] system.
 
-Here's how it works. The author, writing in Markdown, inserts inline equation like this
+Here's how it works. The author, writing in Markdown, inserts inline equations like this
 
     where \(\alpha = (t_1 - t_0)/L\) is the rate at which the thickness increases
 
