@@ -10,7 +10,7 @@ enclosing the math in a `\( … \)` pair, just as if writing in LaTeX. PHP Markd
 
 which is then converted by jsMath into
 
-![inline math example](inline-example.png)
+![inline math example](http://www.leancrew.com/all-this/images/math-inline-example.png)
 
 (The example is shown as an image here because I don't know how to get jsMath working on GitHub. On a site with jsMath installed, the equation will be rendered as selectable and scalable text.)
 
@@ -28,7 +28,7 @@ which PHP Markdown Extra Math will turn into this HTML
 
 which, in turn, will be rendered by jsMath like this:
 
-![display math example](display-example.png)
+![display math example](http://www.leancrew.com/all-this/images/math-display-example.png)
 
 
 PHP Markdown Extra Math is licensed under the same terms as PHP Markdown Extra. See the License.text file.
