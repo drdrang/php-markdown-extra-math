@@ -1,5 +1,9 @@
 <?php
 #
+# Markdown Extra Math - PHP Markdown Extra with additional syntax for jsMath equations
+# Copyright (c) 2008-2009 Dr. Drang
+# <http://www.leancrew.com/all-this/>
+#
 # Markdown Extra  -  A text-to-HTML conversion tool for web writers
 #
 # PHP Markdown & Extra
