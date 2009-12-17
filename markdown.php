@@ -628,7 +628,7 @@ class Markdown_Parser {
 	# These are all the transformations that occur *within* block-level
 	# tags like paragraphs, headers, and list items.
 	#
-		# Process character escapes, code spans, and inline HTML
+		# Process character escapes, code spans, math, and inline HTML
 		# in one shot.
 		"parseSpan"           => -30,
 
