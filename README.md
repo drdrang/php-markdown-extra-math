@@ -14,7 +14,7 @@ which is then converted by jsMath into
 
 (The example is shown as an image here because I don't know how to get jsMath working on GitHub. On a site with jsMath installed, the equation will be rendered as selectable and scalable text.)
 
-Similarly, display Math is written like this:
+Similarly, display Math is enclosed in `\[ … \]` like this:
 
     Putting this into Castigliano's equation, we get
     
