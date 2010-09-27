@@ -38,6 +38,9 @@ define( 'MARKDOWNEXTRA_VERSION',  "1.2.4" ); # Sat 10 Oct 2009
 @define( 'MARKDOWN_FN_LINK_CLASS',         "" );
 @define( 'MARKDOWN_FN_BACKLINK_CLASS',     "" );
 
+# Change to "jsmath" for jsMath output.
+@define( 'MARKDOWN_MATH_TYPE',      "mathjax" );
+
 
 #
 # WordPress settings:
@@ -1136,7 +1139,7 @@ class Markdown_Parser {
 
   function doDisplayMath($text) {
   #
-  # Wrap text between \[ and \] in <div class="math"></div> tags.
+  # Wrap text between \[ and \] in display math tags.
   #
     $text = preg_replace_callback('{
       ^\\\\         # line starts with a single backslash (double escaping)
@@ -1153,7 +1156,11 @@ class Markdown_Parser {
   function _doDisplayMath_callback($matches) {
     $texblock = $matches[1];
     $texblock = htmlspecialchars(trim($texblock), ENT_NOQUOTES);
-		$texblock = "<div class=\"math\">$texblock</div>";
+    if (MARKDOWN_MATH_TYPE == "mathjax") {
+      $texblock = "<script type=\"math/tex; mode=display\">$texblock</script>";
+    } else {
+		  $texblock = "<div class=\"math\">$texblock</div>";
+	  }
 		return "\n\n".$this->hashBlock($texblock)."\n\n";
 	}
     
@@ -1171,7 +1178,11 @@ class Markdown_Parser {
 	# Create a code span markup for $tex. Called from handleSpanToken.
 	#
 		$tex = htmlspecialchars(trim($tex), ENT_NOQUOTES);
-		return $this->hashPart("<span class=\"math\">$tex</span>");
+		if (MARKDOWN_MATH_TYPE == "mathjax") {
+		  return $this->hashPart("<script type=\"math/tex\">$tex</script>");
+	  } else {
+		  return $this->hashPart("<span type=\"math\">$tex</span>");
+	  }
 	}
 
 	
