@@ -1157,7 +1157,7 @@ class Markdown_Parser {
     $texblock = $matches[1];
     $texblock = htmlspecialchars(trim($texblock), ENT_NOQUOTES);
     if (MARKDOWN_MATH_TYPE == "mathjax") {
-      $texblock = "<script type=\"math/tex; mode=display\">$texblock</script>";
+      $texblock = "<span class=\"MathJax_Preview\">[math]</span><script type=\"math/tex; mode=display\">$texblock</script>";
     } else {
 		  $texblock = "<div class=\"math\">$texblock</div>";
 	  }
@@ -1179,7 +1179,7 @@ class Markdown_Parser {
 	#
 		$tex = htmlspecialchars(trim($tex), ENT_NOQUOTES);
 		if (MARKDOWN_MATH_TYPE == "mathjax") {
-		  return $this->hashPart("<script type=\"math/tex\">$tex</script>");
+		  return $this->hashPart("<span class=\"MathJax_Preview\">[math]</span><script type=\"math/tex\">$tex</script>");
 	  } else {
 		  return $this->hashPart("<span type=\"math\">$tex</span>");
 	  }
