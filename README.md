@@ -51,10 +51,11 @@ The choice of MathJax or jsMath output is made on Line 42 of `markdown.php`:
 Change the "mathjax" to "jsmath" to change the rendering library.
 
 ## A MathJax detail ##
-The `<span class="MathJax_Preview">[math]</span>` that precedes the MathJax code serves two purposes:
+The `<span class="MathJax_Preview">[…]</span>` that precedes the MathJax code serves three purposes:
 
 1. It's a placeholder that's displayed briefly while the equations are rendered.
 2. It eliminates [a rendering problem associated with Internet Explorer 8][5].
+3. It gives Instapaper users a sense of what the rendered equation would be (if they understand LaTeX).
 
 ## License ##
 
