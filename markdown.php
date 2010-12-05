@@ -1132,8 +1132,20 @@ class Markdown_Parser {
 
 		# trim leading newlines and trailing newlines
 		$codeblock = preg_replace('/\A\n+|\n+\z/', '', $codeblock);
-
-		$codeblock = "<pre><code>$codeblock\n</code></pre>";
+		
+		# Here's where we do syntax coloring. If the first line of the code block
+		# starts with three colons, we read that line for the language (lexer)
+		# and style info. These must be given in the format used by Pygments, as
+		# we are going to pass them as-is to the pygmentize command.
+		
+		$syntax_line = '/\A:::\s*(\S+)\s+(\S+).*\n/';
+		if ( preg_match($syntax_line, $codeblock, $options) ){
+		  $codeblock = preg_replace($syntax_line, '', $codeblock);
+		  $codeblock = "<pre><code>$codeblock\n</code></pre>";
+	  }
+	  else {
+      $codeblock = "<pre><code>$codeblock\n</code></pre>";
+    }
 		return "\n\n".$this->hashBlock($codeblock)."\n\n";
 	}
 
