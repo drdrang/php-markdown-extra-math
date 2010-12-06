@@ -1138,10 +1138,37 @@ class Markdown_Parser {
 		# and style info. These must be given in the format used by Pygments, as
 		# we are going to pass them as-is to the pygmentize command.
 		
-		$syntax_line = '/\A:::\s*(\S+)\s+(\S+).*\n/';
-		if ( preg_match($syntax_line, $codeblock, $options) ){
-		  $codeblock = preg_replace($syntax_line, '', $codeblock);
-		  $codeblock = "<pre><code>$codeblock\n</code></pre>";
+		$syntax_line = '/\A:::/m';
+		if ( preg_match($syntax_line, $codeblock) ){
+		  # Delete the syntax line.
+		  $parts = preg_split('/\n/', $codeblock, 2);
+		  $options = preg_split('/\s+/', $parts[0]);
+		  $codeblock = $parts[1];
+		  
+		  # Run pygmentize on the code block.
+		  if ($options[2]) {
+		    $pygopts = "-O $options[2]";
+	    }
+		  else {
+		    $pygopts = "";
+	    }
+		  $proc = proc_open("/usr/local/bin/pygmentize -f html -l $options[1] $pygopts", 
+                         array(
+                          0 => array('pipe', 'r'),
+                          1 => array('pipe', 'w'),
+                          2 => array('file', 'log.txt', 'a')),
+                         $fp_array);
+
+       fwrite($fp_array[0], $codeblock);
+       fclose($fp_array[0]);
+
+       $codeblock = stream_get_contents($fp_array[1]);
+
+       fclose($fp_array[1]); 
+       proc_close($proc);
+       
+       # Wrap it in a <div> for CSS styling.
+       $codeblock = "<div class=\"syntax\">$codeblock\n</div>";
 	  }
 	  else {
       $codeblock = "<pre><code>$codeblock\n</code></pre>";
