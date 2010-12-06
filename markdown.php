@@ -1153,6 +1153,7 @@ class Markdown_Parser {
 		  else {
 		    $pygopts = "";
 	    }
+	    // REM: Change the path to /home/drdrang/python/pygmentize on the server.
 		  $proc = proc_open("/usr/local/bin/pygmentize -f html -l $options[0] $pygopts", 
                          array(
                           0 => array('pipe', 'r'),
