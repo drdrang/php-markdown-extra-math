@@ -1128,7 +1128,7 @@ class Markdown_Parser {
 		$codeblock = $matches[1];
 
 		$codeblock = $this->outdent($codeblock);
-		$codeblock = htmlspecialchars($codeblock, ENT_NOQUOTES);
+    // $codeblock = htmlspecialchars($codeblock, ENT_NOQUOTES);
 
 		# trim leading newlines and trailing newlines
 		$codeblock = preg_replace('/\A\n+|\n+\z/', '', $codeblock);
@@ -1171,6 +1171,7 @@ class Markdown_Parser {
        $codeblock = "<div class=\"syntax\">$codeblock\n</div>";
 	  }
 	  else {
+	    $codeblock = htmlspecialchars($codeblock, ENT_NOQUOTES);
       $codeblock = "<pre><code>$codeblock\n</code></pre>";
     }
 		return "\n\n".$this->hashBlock($codeblock)."\n\n";
