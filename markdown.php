@@ -1138,21 +1138,22 @@ class Markdown_Parser {
 		# and style info. These must be given in the format used by Pygments, as
 		# we are going to pass them as-is to the pygmentize command.
 		
-		$syntax_line = '/\A:::/m';
+		$syntax_line = '/^:::\s*/';
 		if ( preg_match($syntax_line, $codeblock) ){
-		  # Delete the syntax line.
+		  # Get the options and delete the syntax line from $codeblock.
 		  $parts = preg_split('/\n/', $codeblock, 2);
-		  $options = preg_split('/\s+/', $parts[0]);
+		  $parts[0] = preg_replace($syntax_line, '', $parts[0]);
+      $options = preg_split('/\s+/', $parts[0]);
 		  $codeblock = $parts[1];
 		  
 		  # Run pygmentize on the code block.
-		  if ($options[2]) {
-		    $pygopts = "-O $options[2]";
+		  if ($options[1]) {
+		    $pygopts = "-O $options[1]";
 	    }
 		  else {
 		    $pygopts = "";
 	    }
-		  $proc = proc_open("/usr/local/bin/pygmentize -f html -l $options[1] $pygopts", 
+		  $proc = proc_open("/usr/local/bin/pygmentize -f html -l $options[0] $pygopts", 
                          array(
                           0 => array('pipe', 'r'),
                           1 => array('pipe', 'w'),
