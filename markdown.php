@@ -1155,7 +1155,8 @@ class Markdown_Parser {
   }
   function _doDisplayMath_callback($matches) {
     $texblock = $matches[1];
-    $texblock = htmlspecialchars(trim($texblock), ENT_NOQUOTES);
+    # $texblock = htmlspecialchars(trim($texblock), ENT_NOQUOTES);
+    $texblock = trim($texblock);
     if (MARKDOWN_MATH_TYPE == "mathjax") {
       $texblock = "<span class=\"MathJax_Preview\">[$texblock]</span><script type=\"math/tex; mode=display\">$texblock</script>";
     } else {
@@ -1177,7 +1178,8 @@ class Markdown_Parser {
 	#
 	# Create a code span markup for $tex. Called from handleSpanToken.
 	#
-		$tex = htmlspecialchars(trim($tex), ENT_NOQUOTES);
+    # $tex = htmlspecialchars(trim($tex), ENT_NOQUOTES);
+    $tex = trim($tex);
 		if (MARKDOWN_MATH_TYPE == "mathjax") {
 		  return $this->hashPart("<span class=\"MathJax_Preview\">[$tex]</span><script type=\"math/tex\">$tex</script>");
 	  } else {
